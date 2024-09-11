@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package cuentas;
+
+message Movimiento {
+  int32 id = 1;
+  int32 fecha = 2;
+  double monto = 3;
+  string tipo = 4;
+}
+
+message Cuenta {
+  int32 id = 1;
+  double saldo = 2;
+  repeated Movimiento movimientos = 3;
+}
+
+message GetCuentaRequest {
+  int32 id = 1;
+}
+message CuentaResponse {
+  Cuenta cuenta = 1;
+}
+
+message GetSaldoRequest {
+  int32 id = 1;
+}
+message SaldoResponse {
+  double saldo = 1;
+}
+
+message GetMovimientosRequest {
+  int32 id = 1;
+}
+message MovimientosResponse {
+  repeated Movimiento movimientos = 1;
+} 
+
+message TransferirRequest {
+  int32 cuentaOrigen = 1;
+  int32 cuentaDestino = 2;
+  double monto = 3;
+  optional string bancoDestino = 4;
+}
+
+message TransferirResponse {
+  string message = 1;
+}
+
+
+service CuentasService {
+  rpc GetCuenta (GetCuentaRequest) returns (CuentaResponse);
+  rpc GetSaldo (GetSaldoRequest) returns (SaldoResponse);
+  rpc GetMovimientos (GetMovimientosRequest) returns (MovimientosResponse);
+  rpc Transferir (TransferirRequest) returns (TransferirResponse);
+}
